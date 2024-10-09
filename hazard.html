@@ -48,6 +48,7 @@
             border: 5px solid #333;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             margin: 10px 0;
+            position: relative;
         }
 
         .Button {
@@ -97,15 +98,6 @@
             transform: translate3d(0, 0, 0);
         }
 
-        .game-container {
-            display: none;
-            position: relative;
-            max-width: 800px;
-            width: 100%;
-            border: 5px solid #333;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
         .hazard-image {
             width: 100%;
             display: block;
@@ -116,6 +108,7 @@
             border: none;
             background-color: transparent;
             border-radius: 5px;
+            cursor: pointer;
         }
 
         .popup {
@@ -124,12 +117,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             display: none;
+            position: absolute;
             max-width: 90%;
-            transition: opacity 0.6s ease; /* Smooth fade-in */
-        }
-
-        .popup.show {
-            display: block;
         }
 
         .popup h3 {
@@ -206,7 +195,7 @@
             setTimeout(() => {
                 button.classList.remove('animate');
                 startGame();
-            }, 300); // Wait for 0.3 seconds before starting the game
+            }, 300);
         }
 
         function startGame() {
@@ -218,9 +207,15 @@
             hotspot.addEventListener('click', function() {
                 const info = this.getAttribute('data-info');
                 popupInfo.textContent = info;
-                popup.style.top = `${this.offsetTop + this.offsetHeight / 2}px`;
-                popup.style.left = `${this.offsetLeft + this.offsetWidth / 2}px`;
+
+                // Position the popup near the hotspot
+                const popupX = this.offsetLeft + this.offsetWidth / 2 - popup.offsetWidth / 2;
+                const popupY = this.offsetTop + this.offsetHeight / 2 - popup.offsetHeight / 2;
+
+                popup.style.left = `${popupX}px`;
+                popup.style.top = `${popupY}px`;
                 popup.classList.add('show');
+
                 if (!this.classList.contains('identified')) {
                     this.classList.add('identified');
                     identifiedCount++;
@@ -230,11 +225,11 @@
 
         function closePopup() {
             popup.classList.remove('show');
-            setTimeout(() => {
-                if (identifiedCount === hotspots.length) {
+            if (identifiedCount === hotspots.length) {
+                setTimeout(() => {
                     completionMessage.classList.add('show');
-                }
-            }, 600);
+                }, 600); // Ensure it appears after closing the last popup
+            }
         }
     </script>
 </body>
