@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hazard Identification Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            position: relative;
+            
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f0f0;
+            
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            z-index: -1;
+        
+            overflow: hidden;
+        }
+
+        * {
+            outline: 0;
+        }
+
+        .Wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .Button {
+            margin-bottom: 50px;
+            perspective: 600px;
+        }
+
+        .Button--start {
+            width: 240px;
+            height: 90px;
+        }
+
+        button {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            box-shadow: 0px 0px 0px #750014;
+            background: radial-gradient(ellipse at center, #D60D2E 0%, #C20020 100%);
+            transition: transform 0.15s, box-shadow 0.15s;
+            transform: rotateX(0deg) translateY(0);
+            cursor: pointer;
+            -webkit-font-smoothing: antialiased;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            box-shadow: 0px 5px 0px #750014;
+            transform: rotateX(30deg) translateY(0);
+        }
+
+        button:hover:active {
+            text-shadow: 0 0 4px #AD001D;
+            box-shadow: 0 1px 0 #423847;
+            background: radial-gradient(ellipse at center, #FF002B 0%, #ED0028 100%);
+            transition: transform 0.05s, box-shadow 0.05s;
+            transform: rotateX(30deg) translateY(4px);
+        }
+
+        button span {
+            position: relative;
+            font-size: 30px;
+            color: white;
+            text-transform: uppercase;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .game-container {
+            display: none;
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            border: 5px solid #333;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .hazard-image {
+            width: 100%;
+            display: block;
+        }
+        .hotspot {
+            position: absolute;
+            border: 2px solid red;
+            background-color: transparent;
+            border-radius: 5px;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            display: none;
+            max-width: 90%;
+        }
+        .popup h3 {
+            margin-top: 0;
+        }
+        .popup button {
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .popup button:hover {
+            background-color: #ff4500;
+        }
+        .completion-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #28a745;
+            color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            font-size: 1.5em;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <main class="Wrapper">
+        <div class="title">SPOT THE HAZARD</div>
+        <div class="menu-container Button Button--start" id="menu">
+            
+            <button onclick="playAnimationThenStartGame(event)"><span>Play</span></button>
+        </div>
+        <div class="game-container" id="gameContainer">
+            <img src="https://www.mailtimes.com.au/images/transform/v1/crop/frm/silverstone-feed-data/43c4fbfd-168f-457a-a4a3-5fdaaf3aba7c.jpg/r0_0_800_600_w1200_h678_fmax.webp" alt="Hazard Scene" class="hazard-image" id="hazardImage">
+            <div class="hotspot" style="top: 30%; left: 20%; width: 10%; height: 10%;" data-info="This is a wet floor hazard."></div>
+            <div class="hotspot" style="top: 50%; left: 60%; width: 15%; height: 15%;" data-info="This is an exposed electrical wire."></div>
+            <div class="hotspot" style="top: 70%; left: 10%; width: 12%; height: 12%;" data-info="This is an unguarded machine."></div>
+        </div>
+        <div class="popup" id="popup">
+            <h3>Hazard Identified</h3>
+            <p id="popupInfo"></p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+        <div class="completion-message" id="completionMessage">All hazards have been identified! You may proceed.</div>
+    </main>
+
+    <script>
+        const menu = document.getElementById('menu');
+        const gameContainer = document.getElementById('gameContainer');
+        const hotspots = document.querySelectorAll('.hotspot');
+        const popup = document.getElementById('popup');
+        const popupInfo = document.getElementById('popupInfo');
+        const completionMessage = document.getElementById('completionMessage');
+        let identifiedCount = 0;
+
+        function playAnimationThenStartGame(e) {
+            e.preventDefault();
+            const button = e.target;
+            button.classList.add('animate');
+            setTimeout(() => {
+                button.classList.remove('animate');
+                startGame();
+            }, 300); // Wait for 0.3 seconds before starting the game
+        }
+
+        function startGame() {
+            menu.style.display = 'none';
+            gameContainer.style.display = 'block';
+        }
+
+        hotspots.forEach(hotspot => {
+            hotspot.addEventListener('click', function() {
+                const info = this.getAttribute('data-info');
+                popupInfo.textContent = info;
+                popup.style.display = 'block';
+                if (!this.classList.contains('identified')) {
+                    this.classList.add('identified');
+                    identifiedCount++;
+                    checkCompletion();
+                }
+            });
+        });
+
+        function closePopup() {
+            popup.style.display = 'none';
+        }
+
+        function checkCompletion() {
+            if (identifiedCount === hotspots.length) {
+                popup.style.display = 'none';
+                completionMessage.style.display = 'block';
+                hotspots.forEach(hotspot => hotspot.style.display = 'none');
+                // Trigger completion (could be integrated with an LMS using SCORM or xAPI if needed)
+                console.log('Game completed');
+            }
+        }
+    </script>
+</body>
+</html>
