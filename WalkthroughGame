@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merchandising Standards Game</title>
+    <title>Walkthrough Game</title>
     <style>
     body {
         font-family: Poppins, sans-serif;
@@ -42,7 +42,7 @@
         .hotspot {
             position: absolute;
             background-color: rgba(255, 0, 0, 0); /* Transparent background */
-            border: 2px solid red; /* Add a red border for visibility */
+            border: 0px solid red; /* Add a red border for visibility */
         }
 
         #list-container {
@@ -110,32 +110,40 @@
             background-color: #3e8e41;
         }
 
-        /* Fullscreen overlay for the walkthrough summary */
-        #walkthrough-overlay {
-            display: none;
-            position: middle;
-            top: 0;
-            left: 0;
-            width: 800px;
-            height: 100%;
-            background: url('https://www.afrik21.africa/wp-content/uploads/2019/12/shutterstock_691184395-1-800x400.jpg') no-repeat center center/cover;
-            z-index: 1000;
-            text-align: center;
-            color: white;
-            font-size: 24px;
-            padding-top: 50px;
-        }
+      /* Fullscreen overlay for the walkthrough summary */
+#walkthrough-overlay {
+    display: none;
+    position: center;
+    top: 100px;
+    left: 0;
+    width: 833px;
+    height: 100%;
+    background: url('https://github.com/andreimaximovwork/FloorLeader/blob/main/dwb.JPG?raw=true') no-repeat center center/cover;
+    background-position: center 10px; /* Moves the image lower */
+    z-index: 1000;
+    text-align: center;
+    color: black;
+    font-size: 12px;
+    padding-top: 100px;
+}
 
-        #walkthrough-summary {
-            margin-top: 20px;
-            font-size: 18px;
-        }
+#walkthrough-summary {
+    margin-top: 189px;
+    font-size: 18px;
+    line-height: 0.4; /* Adjust this value as needed */
+    text-align: left; /* Left-align the text */
+    width: 50%; /* Adjust the width as needed */
+    margin-left: auto;
+    margin-right: auto; /* These center the block horizontally */
+}
+
+
 
     </style>
 </head>
 <body>
 
-<h1>Merchandising Standards Game</h1>
+<h1>Walkthrough Game</h1>
 
 <div id="game-container">
     <!-- First store image -->
@@ -160,7 +168,7 @@
     <!-- Second store image -->
     <div class="store-image-container" id="scene2">
         <div class="store-image">
-            <img src="store2.jpg" alt="Store 2" width="600" height="400">
+            <img src="https://www.meridianmall.co.nz/index.php/assets/bulkUpload/IMG-7440.jpg" alt="Store 2" width="600" height="400">
             <!-- Invisible hotspots -->
             <div class="hotspot" style="top: 50px; left: 50px; width: 100px; height: 100px;" onclick="identifyError('Incorrect signage')"></div>
             <div class="hotspot" style="top: 200px; left: 150px; width: 120px; height: 120px;" onclick="identifyError('Wrong product placement')"></div>
@@ -187,7 +195,7 @@
 
 <!-- Fullscreen overlay for the walkthrough summary -->
 <div id="walkthrough-overlay">
-    <h2>Store Daily Walkthrough</h2>
+  
     <div id="walkthrough-summary"></div>
 </div>
 
