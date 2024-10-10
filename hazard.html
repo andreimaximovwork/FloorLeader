@@ -13,9 +13,21 @@ body {
   height: 100%;
   margin: 0;
   font-family: 'Open Sans', sans-serif;
-  background-color: #ffffff;
-  min-height: 100vh; /* Ensures full height inside iframe */
+  min-height: 100vh;
   overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://www.channelnews.com.au/wp-content/uploads/2022/03/JB-Hi-Fi-Store-Sydney.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.1;
+  z-index: -1;
 }
 
 * {
@@ -24,22 +36,22 @@ body {
 
 .Wrapper {
   position: relative;
-  z-index: 1;
   width: 100%;
-  height: 100vh; /* Ensures the wrapper takes full viewport height */
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Align content to the center */
+  justify-content: center;
   align-items: center;
   text-align: center;
   padding: 0;
   margin: 0;
+  z-index: 1;
 }
 
 .title {
   font-size: 2em;
   font-weight: bold;
-  margin: 20px 0; /* Space between the title and the play button */
+  margin: 20px 0;
 }
 
 .game-container {
@@ -47,12 +59,14 @@ body {
   width: 100%;
   border: 5px solid #333;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  margin: 10px 0; /* Reduced the space below the game container */
+  margin: 10px 0;
 }
 
 .Button {
   margin-bottom: 50px;
   perspective: 600px;
+  position: relative;
+  z-index: 2;
 }
 
 .Button--start {
@@ -113,7 +127,7 @@ button span {
 
 .hotspot {
   position: absolute;
-  border: none; /* Remove border to make it invisible */
+  border: none;
   background-color: transparent;
   border-radius: 5px;
 }
@@ -126,13 +140,11 @@ button span {
   border-radius: 10px;
   display: none;
   max-width: 90%;
- -- transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
- -- transform: scale(0); /* Start scaled down */
   opacity: 0;
 }
 
 .popup.show {
-  transform: scale(1); /* Scale up when shown */
+  transform: scale(1);
   opacity: 1;
 }
 
@@ -154,16 +166,16 @@ button span {
   transform: none; /* Remove tilting effect */
   transition: background-color 0.15s; /* Keep a hover effect for background color */
 }
-
 .popup button:hover {
   background-color: #ff4500;
 }
+
 
 .completion-message {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* Always stays centered */
+  transform: translate(-50%, -50%);
   background-color: #28a745;
   color: #fff;
   padding: 30px;
@@ -201,7 +213,7 @@ button span {
 <main class="Wrapper">
   <div class="title"></div>
   <div class="menu-container Button Button--start" id="menu">
-    <button onclick="playAnimationThenStartGame(event)"><span>Play</span></button>
+    <button onclick="playAnimationThenStartGame(event)" class="Button"><span>Play</span></button>
   </div>
   <div class="game-container" id="gameContainer">
     <img src="https://www.mailtimes.com.au/images/transform/v1/crop/frm/silverstone-feed-data/43c4fbfd-168f-457a-a4a3-5fdaaf3aba7c.jpg/r0_0_800_600_w1200_h678_fmax.webp" alt="Hazard Scene" class="hazard-image" id="hazardImage">
@@ -259,7 +271,7 @@ hotspots.forEach(hotspot => {
       identifiedCount++;
     }
   });
-});
+}); 
 
 function closePopup() {
   popup.classList.remove('show');
