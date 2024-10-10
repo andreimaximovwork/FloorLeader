@@ -200,14 +200,14 @@
 
 <script>
     const errors = {
-        'Incorrect shelf placement': false,
-        'Missing price tag': false,
-        'Unorganized display': false,
-        'Damaged product packaging': false,
-        'Incorrect signage': false,
-        'Wrong product placement': false,
-        'Unaligned shelves': false,
-        'Obstructed aisle': false,
+        'Fill gaps': false,
+        'Fix Shelf': false,
+        'Do some catalgue tix': false,
+        'Put new laptop on display': false, 
+        'Replace Signage': false,
+        'Sweep the floor': false,
+        'Remove stock from floor': false,
+        'Be Rad': false,
     };
 
     const identifiedErrors = new Set();
