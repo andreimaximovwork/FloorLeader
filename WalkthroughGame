@@ -141,7 +141,7 @@
     <!-- First store image -->
     <div class="store-image-container visible" id="scene1">
         <div class="store-image">
-            <img src="store1.jpg" alt="Store 1" width="600" height="400">
+            <img src="https://www.meridianmall.co.nz/assets/bulkUpload/IMG-7452.jpg" alt="Store 1" width="600" height="400">
             <!-- Invisible hotspots -->
             <div class="hotspot" style="top: 50px; left: 100px; width: 100px; height: 100px;" onclick="identifyError('Incorrect shelf placement')"></div>
             <div class="hotspot" style="top: 150px; left: 300px; width: 80px; height: 80px;" onclick="identifyError('Missing price tag')"></div>
