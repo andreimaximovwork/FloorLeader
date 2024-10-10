@@ -187,7 +187,7 @@
 
 <!-- Fullscreen overlay for the walkthrough summary -->
 <div id="walkthrough-overlay">
-    <h2>Walkthrough Summary</h2>
+    <h2>Store Daily Walkthrough</h2>
     <div id="walkthrough-summary"></div>
 </div>
 
