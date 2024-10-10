@@ -158,8 +158,8 @@
 
         <!-- Controls below image -->
         <div id="controls">
-            <button onclick="showScene(1)">Previous Scene</button>
-            <button onclick="showScene(2)">Next Scene</button>
+            <button onclick="showScene(1)">Previous Department</button>
+            <button onclick="showScene(2)">Next Department</button>
             <button onclick="finishWalkthrough()">Finish Walkthrough</button>
         </div>
     </div>
@@ -177,8 +177,8 @@
 
         <!-- Controls below image -->
         <div id="controls">
-            <button onclick="showScene(1)">Previous Scene</button>
-            <button onclick="showScene(2)">Next Scene</button>
+            <button onclick="showScene(1)">Previous Department</button>
+            <button onclick="showScene(2)">Next Department</button>
             <button onclick="finishWalkthrough()">Finish Walkthrough</button>
         </div>
     </div>
