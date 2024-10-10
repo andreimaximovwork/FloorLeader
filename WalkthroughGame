@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchandising Standards Game</title>
+    <style>
+    body {
+        font-family: Poppins, sans-serif;
+    }
+
+    h1 {
+        text-align: center; /* Horizontally center the text */
+    }
+
+    #game-container {
+        display: flex;
+        justify-content: space-between; /* Place scene and list side by side */
+        align-items: flex-start;
+        width: 100%;
+    }
+
+        .store-image-container {
+            display: none; /* Ensure all scenes are hidden initially */
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-grow: 1; /* Make images take up space */
+        }
+
+        .store-image-container.visible {
+            display: flex; /* Show the current scene */
+        }
+
+        .store-image {
+            position: relative;
+            width: 600px;
+            height: 400px;
+        }
+
+        /* Hotspot with no hover or cursor change */
+        .hotspot {
+            position: absolute;
+            background-color: rgba(255, 0, 0, 0); /* Transparent background */
+            border: 2px solid red; /* Add a red border for visibility */
+        }
+
+        #list-container {
+            margin-left: 20px;
+            flex-shrink: 0; /* Ensure list container doesn’t shrink */
+            width: 280px;
+            height: 310px; /* Fixed height */
+            background-color: #fef3bd; /* Light yellow for notepad effect */
+            border: 2px solid #d4b10f; /* Darker yellow border */
+            padding: 15px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Notepad shadow */
+            position: relative;
+            overflow-y: auto; /* Enable scrolling */
+            background-image: linear-gradient(to bottom, transparent 29px, #d4b10f 30px);
+            background-size: 100% 30px;
+            background-repeat: repeat-y; /* Notepad line effect */
+        }
+
+        #items-list {
+          --  list-style-type: none;
+            padding: 0;
+            margin: 0;
+            line-height: 30px; /* Match the notepad line spacing */
+        }
+
+        #items-list li {
+            position: relative;
+            top: -15px; /* Move the text slightly upwards */
+            margin: 0;
+        }
+
+        .found {
+            text-decoration: none;
+        }
+
+        #controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Add space between buttons */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Button styling to resemble CodePen */
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: Poppins, sans-serif;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            background-color: #3e8e41;
+        }
+
+        /* Fullscreen overlay for the walkthrough summary */
+        #walkthrough-overlay {
+            display: none;
+            position: middle;
+            top: 0;
+            left: 0;
+            width: 800px;
+            height: 100%;
+            background: url('https://www.afrik21.africa/wp-content/uploads/2019/12/shutterstock_691184395-1-800x400.jpg') no-repeat center center/cover;
+            z-index: 1000;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            padding-top: 50px;
+        }
+
+        #walkthrough-summary {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Merchandising Standards Game</h1>
+
+<div id="game-container">
+    <!-- First store image -->
+    <div class="store-image-container visible" id="scene1">
+        <div class="store-image">
+            <img src="store1.jpg" alt="Store 1" width="600" height="400">
+            <!-- Invisible hotspots -->
+            <div class="hotspot" style="top: 50px; left: 100px; width: 100px; height: 100px;" onclick="identifyError('Incorrect shelf placement')"></div>
+            <div class="hotspot" style="top: 150px; left: 300px; width: 80px; height: 80px;" onclick="identifyError('Missing price tag')"></div>
+            <div class="hotspot" style="top: 250px; left: 200px; width: 70px; height: 70px;" onclick="identifyError('Unorganized display')"></div>
+            <div class="hotspot" style="top: 100px; left: 400px; width: 50px; height: 50px;" onclick="identifyError('Damaged product packaging')"></div>
+        </div>
+
+        <!-- Controls below image -->
+        <div id="controls">
+            <button onclick="showScene(1)">Previous Scene</button>
+            <button onclick="showScene(2)">Next Scene</button>
+            <button onclick="finishWalkthrough()">Finish Walkthrough</button>
+        </div>
+    </div>
+
+    <!-- Second store image -->
+    <div class="store-image-container" id="scene2">
+        <div class="store-image">
+            <img src="store2.jpg" alt="Store 2" width="600" height="400">
+            <!-- Invisible hotspots -->
+            <div class="hotspot" style="top: 50px; left: 50px; width: 100px; height: 100px;" onclick="identifyError('Incorrect signage')"></div>
+            <div class="hotspot" style="top: 200px; left: 150px; width: 120px; height: 120px;" onclick="identifyError('Wrong product placement')"></div>
+            <div class="hotspot" style="top: 300px; left: 300px; width: 90px; height: 90px;" onclick="identifyError('Unaligned shelves')"></div>
+            <div class="hotspot" style="top: 100px; left: 500px; width: 70px; height: 70px;" onclick="identifyError('Obstructed aisle')"></div>
+        </div>
+
+        <!-- Controls below image -->
+        <div id="controls">
+            <button onclick="showScene(1)">Previous Scene</button>
+            <button onclick="showScene(2)">Next Scene</button>
+            <button onclick="finishWalkthrough()">Finish Walkthrough</button>
+        </div>
+    </div>
+
+    <!-- List of identified errors to the right of the image -->
+    <div id="list-container">
+        <h3>Walkthrough Tasks:</h3>
+        <div id="items-list">
+            <!-- Items will be dynamically added here -->
+        </div>
+    </div>
+</div>
+
+<!-- Fullscreen overlay for the walkthrough summary -->
+<div id="walkthrough-overlay">
+    <h2>Walkthrough Summary</h2>
+    <div id="walkthrough-summary"></div>
+</div>
+
+<script>
+    const errors = {
+        'Incorrect shelf placement': false,
+        'Missing price tag': false,
+        'Unorganized display': false,
+        'Damaged product packaging': false,
+        'Incorrect signage': false,
+        'Wrong product placement': false,
+        'Unaligned shelves': false,
+        'Obstructed aisle': false,
+    };
+
+    const identifiedErrors = new Set();
+
+    function identifyError(error) {
+        if (!identifiedErrors.has(error)) {
+            identifiedErrors.add(error);
+            document.getElementById('items-list').innerHTML += `<li class="found">${error}</li>`;
+            errors[error] = true;
+        }
+    }
+
+    function showScene(sceneNumber) {
+        // Hide both scenes first
+        document.getElementById('scene1').classList.remove('visible');
+        document.getElementById('scene2').classList.remove('visible');
+        
+        // Show the requested scene
+        if (sceneNumber === 1) {
+            document.getElementById('scene1').classList.add('visible');
+        } else {
+            document.getElementById('scene2').classList.add('visible');
+        }
+    }
+function finishWalkthrough() {
+    // Hide the game container and show the overlay
+    document.getElementById('game-container').style.display = 'none';
+    document.getElementById('walkthrough-overlay').style.display = 'block';
+
+    const summaryList = document.getElementById('walkthrough-summary');
+    summaryList.innerHTML = ''; // Clear the list before adding new items
+
+    for (const error in errors) {
+        const status = errors[error] ? '✅' : '❌';
+        const item = document.createElement('p'); // Create a <p> element instead of <li>
+        item.textContent = `${error}: ${status}`;
+        summaryList.appendChild(item);
+    }
+}
+
+</script>
+
+</body>
+</html>
